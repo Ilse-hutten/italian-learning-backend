@@ -1,9 +1,9 @@
-# Provides an API endpoint for your Flutter app to interact with progress data
+# Provides an API endpoint for your Flutter . to interact with progress data
 
 from fastapi import APIRouter, Depends
 from sqlalchemy.orm import Session
-from app.models.progress import UserProgress
-from app.database import get_db
+from ..models.progress import UserProgress
+from ..database import get_db
 
 router = APIRouter()
 

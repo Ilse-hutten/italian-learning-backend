@@ -1,5 +1,5 @@
-from app.database import SessionLocal
-from app.models import LessonCategory, Lesson, Song
+from ..database import SessionLocal
+from ..models import LessonCategory, Lesson, Song
 
 db = SessionLocal()
 
@@ -15,6 +15,7 @@ for lesson in db.query(Lesson).all():
 print("\n=== Songs ===")
 for song in db.query(Song).all():
     print(f"{song.id}: {song.title} by {song.artist}")
-    print(f"First line: {song.lyrics.split('\n')[0]}")
+    first_line = song.lyrics.split('\n')[0]  # Extract to variable first
+    print(f"First line: {first_line}")
 
 db.close()

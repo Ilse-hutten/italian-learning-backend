@@ -1,7 +1,7 @@
 # Correct import statement
-from app.models.progress import UserProgress  # Explicit import
-from app.models.lesson import Lesson
-from app.models.song import Song
+from ..models.progress import UserProgress  # Explicit import
+from ..models.lesson import Lesson
+from ..models.song import Song
 from sqlalchemy.orm import Session
 from sqlalchemy import or_
 import random

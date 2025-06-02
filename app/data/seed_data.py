@@ -1,10 +1,23 @@
+import sys
+import os
+
+# Add the project root (italian-learning-backend) to Python path
+project_root = os.path.dirname(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
+sys.path.insert(0, project_root)
+
+# Now your imports will work
 import json
 from sqlalchemy.orm import Session
-from app.database import engine, Base
+from app.database import engine, Base, SessionLocal
 from app.models import LessonCategory, Lesson, Song
 
+import json
+from sqlalchemy.orm import Session
+#from database import engine, Base
+#from models import LessonCategory, Lesson, Song
+
 def seed_data(db: Session):
-    # Seed Themes/Categories
+    # Seed Themes/Categories - Check for existence first
     themes = [
         {"name": "Restaurant", "icon": "🍝", "description": "Ordering food and drinks"},
         {"name": "Transportation", "icon": "🚆", "description": "Getting around Italy"},
@@ -13,10 +26,16 @@ def seed_data(db: Session):
     ]
 
     for theme in themes:
-        db.add(LessonCategory(**theme))
+        # Check if category already exists
+        existing = db.query(LessonCategory).filter_by(name=theme["name"]).first()
+        if not existing:
+            db.add(LessonCategory(**theme))
+            print(f"Added category: {theme['name']}")
+        else:
+            print(f"Category already exists: {theme['name']}")
     db.commit()
 
-    # Seed Lessons
+    # Seed Lessons - Check for existence first
     restaurant_phrases = [
         {"italian": "Un tavolo per due", "english": "A table for two", "pronunciation": "oon TAH-volo per DUE"},
         {"italian": "Il conto, per favore", "english": "The bill, please", "pronunciation": "eel KON-to per fa-VO-re"}
@@ -41,10 +60,16 @@ def seed_data(db: Session):
     ]
 
     for lesson in lessons:
-        db.add(Lesson(**lesson))
+        # Check if lesson already exists
+        existing = db.query(Lesson).filter_by(title=lesson["title"]).first()
+        if not existing:
+            db.add(Lesson(**lesson))
+            print(f"Added lesson: {lesson['title']}")
+        else:
+            print(f"Lesson already exists: {lesson['title']}")
     db.commit()
 
-    # Seed Songs
+    # Seed Songs - Check for existence first
     songs = [
         {
             "title": "Volare",
@@ -68,12 +93,20 @@ def seed_data(db: Session):
     ]
 
     for song in songs:
-        db.add(Song(**song))
+        # Check if song already exists
+        existing = db.query(Song).filter_by(title=song["title"], artist=song["artist"]).first()
+        if not existing:
+            db.add(Song(**song))
+            print(f"Added song: {song['title']} by {song['artist']}")
+        else:
+            print(f"Song already exists: {song['title']} by {song['artist']}")
     db.commit()
 
 if __name__ == "__main__":
     Base.metadata.create_all(bind=engine)
-    from app.database import SessionLocal
     db = SessionLocal()
-    seed_data(db)
-    print("Database seeded successfully!")
+    try:
+        seed_data(db)
+        print("Database seeded successfully!")
+    finally:
+        db.close()

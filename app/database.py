@@ -18,9 +18,9 @@ def get_db():
         db.close()
 
 # At the bottom of database.py
-from app.models.user import User
-from app.models.lesson import Lesson, LessonCategory
-from app.models.song import Song
-from app.models.progress import UserProgress
+from .models.user import User
+from .models.lesson import Lesson, LessonCategory
+from .models.song import Song
+from .models.progress import UserProgress
 
 Base.metadata.create_all(bind=engine)

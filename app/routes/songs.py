@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 from typing import List
 
-from app.database import get_db
-from app.models.song import Song
-from app.schemas.song import SongOut, SongLyrics
+from ..database import get_db
+from ..models.song import Song
+from ..schemas.song import SongOut, SongLyrics
 
 router = APIRouter()
 

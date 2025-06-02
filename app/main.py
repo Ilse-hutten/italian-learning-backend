@@ -1,6 +1,6 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
-from app.routes import auth, lessons, songs, progress
+from .routes import auth, lessons, songs, progress
 
 app = FastAPI(title="Italian Learning API", version="0.1")
 
